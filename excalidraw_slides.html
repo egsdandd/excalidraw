@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excalidraw - Teknisk Arkitektur</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+        
+        .slide {
+            width: 960px;
+            height: 540px;
+            background: white;
+            margin: 20px auto;
+            padding: 60px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            page-break-after: always;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .slide h1 {
+            font-size: 54px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 15px;
+        }
+        
+        .slide h2 {
+            font-size: 44px;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .slide h3 {
+            font-size: 28px;
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .slide p {
+            font-size: 20px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .slide ul {
+            font-size: 18px;
+            color: #555;
+            margin-left: 40px;
+            line-height: 1.8;
+        }
+        
+        .slide li {
+            margin-bottom: 12px;
+        }
+        
+        .title-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .title-slide h1 {
+            border: none;
+            font-size: 72px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .title-slide p {
+            font-size: 24px;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .code-box {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        
+        .checkmark {
+            color: #27ae60;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .x-mark {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+        
+        table th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .slide-number {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .card p {
+            font-size: 14px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- SLIDE 1: Title -->
+<div class="slide title-slide">
+    <h1>Excalidraw</h1>
+    <p>Teknisk Arkitektur & Implementation</p>
+    <p style="margin-top: 40px; font-size: 18px;">En djupdykning i modern webbutveckling</p>
+</div>
+
+<!-- SLIDE 2: Vad är Excalidraw? -->
+<div class="slide">
+    <h2>Vad är Excalidraw?</h2>
+    <ul>
+        <li><span class="checkmark">✓</span> Webbaserad ritapplikation (whiteboard)</li>
+        <li><span class="checkmark">✓</span> Skapar handritade diagram och skisser</li>
+        <li><span class="checkmark">✓</span> Gratis och open-source</li>
+        <li><span class="checkmark">✓</span> Ingen installation behövs</li>
+        <li><span class="checkmark">✓</span> Möjlighet att samarbeta i realtid</li>
+        <li><span class="checkmark">✓</span> +1000 automatiserade tester</li>
+    </ul>
+    <div class="slide-number">2</div>
+</div>
+
+<!-- SLIDE 3: Tech Stack -->
+<div class="slide">
+    <h2>Tech Stack - Vad används?</h2>
+    <table>
+        <tr>
+            <th>Teknologi</th>
+            <th>Version</th>
+            <th>Syfte</th>
+        </tr>
+        <tr>
+            <td><strong>React</strong></td>
+            <td>19.0.10</td>
+            <td>UI Framework</td>
+        </tr>
+        <tr>
+            <td><strong>TypeScript</strong></td>
+            <td>5.9.3</td>
+            <td>Type Safety</td>
+        </tr>
+        <tr>
+            <td><strong>Vite</strong></td>
+            <td>5.0.12</td>
+            <td>Build Tool</td>
+        </tr>
+        <tr>
+            <td><strong>Canvas 2D</strong></td>
+            <td>-</td>
+            <td>Rendering</td>
+        </tr>
+        <tr>
+            <td><strong>Vitest</strong></td>
+            <td>3.0.6</td>
+            <td>Testing</td>
+        </tr>
+    </table>
+    <div class="slide-number">3</div>
+</div>
+
+<!-- SLIDE 4: Arkitektur Lager -->
+<div class="slide">
+    <h2>Arkitektur - Olika Lager</h2>
+    <ul>
+        <li><strong>React Frontend:</strong> Toolbar, Canvas, Panels, Dialogs</li>
+        <li><strong>State Management:</strong> Elements, AppState, History, Scenes</li>
+        <li><strong>Rendering Engine:</strong> Canvas 2D API, WebGL acceleration</li>
+        <li><strong>Core Logic:</strong> Element manipulation, Collision detection</li>
+        <li><strong>Storage:</strong> localStorage, IndexedDB, CloudStorage</li>
+    </ul>
+    <div class="highlight">
+        <strong>Varför lager?</strong> Separation of concerns - varje lager gör en sak bra
+    </div>
+    <div class="slide-number">4</div>
+</div>
+
+<!-- SLIDE 5: Varför React? -->
+<div class="slide">
+    <h2>Varför React?</h2>
+    <div class="grid-3">
+        <div class="card">
+            <h4>🧩 Komponentbaserad</h4>
+            <p>Återanvändbar kod, enkel att organisera</p>
+        </div>
+        <div class="card">
+            <h4>⚡ Virtual DOM</h4>
+            <p>Effektiv rendering av UI-ändringar</p>
+        </div>
+        <div class="card">
+            <h4>🌐 Community</h4>
+            <p>Stor community, många bibliotek</p>
+        </div>
+    </div>
+    <div class="slide-number">5</div>
+</div>
+
+<!-- SLIDE 6: Rendering - Canvas vs SVG -->
+<div class="slide">
+    <h2>Rendering: Canvas vs SVG</h2>
+    <div class="two-column">
+        <div>
+            <h3>Canvas (Vald)</h3>
+            <ul style="font-size: 16px;">
+                <li><span class="checkmark">✓</span> Högt performance</li>
+                <li><span class="checkmark">✓</span> Perfekt för ritprogram</li>
+                <li><span class="checkmark">✓</span> GPU acceleration</li>
+                <li><span class="checkmark">✓</span> Handritad känsla</li>
+            </ul>
+        </div>
+        <div>
+            <h3>SVG (Ej vald)</h3>
+            <ul style="font-size: 16px;">
+                <li><span class="x-mark">✗</span> Långsammare med många element</li>
+                <li><span class="x-mark">✗</span> Svårt att implementera effekter</li>
+                <li><span class="checkmark">✓</span> Bättre för vecktor-grafik</li>
+                <li><span class="checkmark">✓</span> Enklare manipulation</li>
+            </ul>
+        </div>
+    </div>
+    <div class="slide-number">6</div>
+</div>
+
+<!-- SLIDE 7: Canvas Rendering -->
+<div class="slide">
+    <h2>Canvas Rendering - Pipeline</h2>
+    <div class="code-box">
+// 1. Hämta context
+const ctx = canvas.getContext('2d');
+
+// 2. Rensa
+ctx.clearRect(0, 0, width, height);
+
+// 3. Applicera transformationer
+ctx.transform(...);
+
+// 4. Rita alla element
+elements.forEach(el => {
+  ctx.fillRect(el.x, el.y, el.width, el.height);
+});
+    </div>
+    <p><strong>Två canvas-lager:</strong> Interactive (musinteraktion) + Static (innehål)</p>
+    <div class="slide-number">7</div>
+</div>
+
+<!-- SLIDE 8: Element Datastruktur -->
+<div class="slide">
+    <h2>Element - Datastruktur</h2>
+    <div class="code-box" style="font-size: 12px;">
+interface Element {
+  id: string;
+  type: 'rectangle' | 'diamond' | 'ellipse' | 'arrow' | 'text';
+  x: number;  y: number;
+  width: number;  height: number;
+  backgroundColor: string;
+  strokeColor: string;
+  angle: number;  // rotation
+  locked: boolean;
+  text: string;  // för text-element
+}
+    </div>
+    <p>Varje form är ett objekt med position, stil, och egenskaper</p>
+    <div class="slide-number">8</div>
+</div>
+
+<!-- SLIDE 9: Interaction Loop -->
+<div class="slide">
+    <h2>Interaction Event Loop</h2>
+    <ul style="font-size: 18px;">
+        <li><span class="icon">👆</span> <strong>User Action:</strong> Klick, drag, tangent</li>
+        <li style="margin-top: 20px;"><span class="icon">🎯</span> <strong>Event Listener:</strong> onPointerDown, onPointerMove, onPointerUp</li>
+        <li style="margin-top: 20px;"><span class="icon">🧮</span> <strong>Calculate:</strong> Vad ändrade sig?</li>
+        <li style="margin-top: 20px;"><span class="icon">📊</span> <strong>Update State:</strong> Element, AppState</li>
+        <li style="margin-top: 20px;"><span class="icon">🎨</span> <strong>Re-render:</strong> Rita på canvas</li>
+    </ul>
+    <div class="slide-number">9</div>
+</div>
+
+<!-- SLIDE 10: Drag Element Exempel -->
+<div class="slide">
+    <h2>Exempel: Drag an Element</h2>
+    <div class="code-box" style="font-size: 12px;">
+// Pointer Down
+onPointerDown = (event) => {
+  state.draggedElement = getElementAtPosition(event.x, event.y);
+}
+
+// Pointer Move
+onPointerMove = (event) => {
+  if (state.draggedElement) {
+    state.draggedElement.x = event.x - offset.x;
+    state.draggedElement.y = event.y - offset.y;
+    render();
+  }
+}
+
+// Pointer Up
+onPointerUp = () => {
+  addToHistory(state); // För undo
+}
+    </div>
+    <div class="slide-number">10</div>
+</div>
+
+<!-- SLIDE 11: Undo/Redo System -->
+<div class="slide">
+    <h2>Undo/Redo System</h2>
+    <div class="code-box" style="font-size: 13px;">
+class History {
+  entries = [];
+  currentIndex = -1;
+  
+  addEntry(elements, appState) {
+    this.entries = this.entries.slice(0, this.currentIndex + 1);
+    this.entries.push({ elements, appState });
+    this.currentIndex++;
+  }
+  
+  undo() { this.currentIndex--; }
+  redo() { this.currentIndex++; }
+}
+    </div>
+    <p>Spara snapshot av varje tillstånd → enkelt undo/redo</p>
+    <div class="slide-number">11</div>
+</div>
+
+<!-- SLIDE 12: Storage Optioner -->
+<div class="slide">
+    <h2>Storage & Persistence</h2>
+    <div class="grid-3">
+        <div class="card">
+            <h4>localStorage</h4>
+            <p>5-10MB. Snabb. Synkron. Lokalt</p>
+        </div>
+        <div class="card">
+            <h4>IndexedDB</h4>
+            <p>50MB+. Asynkron. Ingen blockering</p>
+        </div>
+        <div class="card">
+            <h4>Cloud</h4>
+            <p>Obegränsad. Samarbete. Synk mellan enheter</p>
+        </div>
+    </div>
+    <p style="margin-top: 30px;"><strong>Excalidraw använder:</strong> localStorage för små diagrams, IndexedDB för större</p>
+    <div class="slide-number">12</div>
+</div>
+
+<!-- SLIDE 13: Testing -->
+<div class="slide">
+    <h2>Testing - 1079 Tests!</h2>
+    <ul>
+        <li><strong>Vitest:</strong> Test runner (snabb, moderna)</li>
+        <li><strong>@testing-library:</strong> Test som användare gör</li>
+        <li><strong>vitest-canvas-mock:</strong> Mock Canvas API för tests</li>
+    </ul>
+    <div class="highlight">
+        <strong>Test-resultat:</strong><br>
+        ✓ 964 tests passar<br>
+        68 snapshot mismatches (ej kritiskt)<br>
+        46 skipped
+    </div>
+    <div class="slide-number">13</div>
+</div>
+
+<!-- SLIDE 14: Test Pyramid -->
+<div class="slide">
+    <h2>Test Pyramid</h2>
+    <ul style="font-size: 18px; margin-top: 40px;">
+        <li><span class="icon">🏔️</span> <strong>Unit Tests:</strong> Enskilda funktioner (många, snabba)</li>
+        <li style="margin-top: 25px;"><span class="icon">🔗</span> <strong>Integration Tests:</strong> Flera komponenter tillsammans (medel)</li>
+        <li style="margin-top: 25px;"><span class="icon">👁️</span> <strong>E2E Tests:</strong> Fullständiga användar-scenarier (få, långsamma)</li>
+    </ul>
+    <p style="margin-top: 30px;"><strong>Excalidraw fokuserar på:</strong> Integration + Unit (viktigast för UI)</p>
+    <div class="slide-number">14</div>
+</div>
+
+<!-- SLIDE 15: Deployment -->
+<div class="slide">
+    <h2>Deployment - 3 Alternativ</h2>
+    <div class="grid-3">
+        <div class="card">
+            <h4>1️⃣ Web App</h4>
+            <p>Deploy till GitHub Pages, Netlify</p>
+        </div>
+        <div class="card">
+            <h4>2️⃣ NPM Package</h4>
+            <p>Andra appar kan importera det</p>
+        </div>
+        <div class="card">
+            <h4>3️⃣ Docker</h4>
+            <p>Container, server-deployment</p>
+        </div>
+    </div>
+    <div class="slide-number">15</div>
+</div>
+
+<!-- SLIDE 16: Monorepo Structure -->
+<div class="slide">
+    <h2>Monorepo - Projektstruktur</h2>
+    <div class="code-box" style="font-size: 12px;">
+excalidraw/
+├── excalidraw-app/        # Web app
+├── packages/
+│   ├── common/            # Shared utilities
+│   ├── element/           # Element types
+│   ├── excalidraw/        # Core library
+│   ├── math/              # Math utilities
+│   └── utils/             # Helper functions
+└── examples/              # Example implementations
+    </div>
+    <p style="margin-top: 20px;"><strong>Fördel:</strong> Shared code, coordinerad versionering</p>
+    <div class="slide-number">16</div>
+</div>
+
+<!-- SLIDE 17: Performance Optimizations -->
+<div class="slide">
+    <h2>Performance Optimizations</h2>
+    <ul style="font-size: 18px;">
+        <li><span class="checkmark">✓</span> <strong>Memoization:</strong> Cache funktions-resultat</li>
+        <li><span class="checkmark">✓</span> <strong>Selective Rendering:</strong> Rita bara synliga element</li>
+        <li><span class="checkmark">✓</span> <strong>Event Debouncing:</strong> Begränsa event-frekvens</li>
+        <li><span class="checkmark">✓</span> <strong>Virtual Scrolling:</strong> Rendera bara synliga i listor</li>
+        <li><span class="checkmark">✓</span> <strong>Two Canvas Layers:</strong> Separate interactive och static</li>
+    </ul>
+    <div class="slide-number">17</div>
+</div>
+
+<!-- SLIDE 18: Architecture Decisions -->
+<div class="slide">
+    <h2>Architecture Decisions & Tradeoffs</h2>
+    <table style="font-size: 14px;">
+        <tr>
+            <th>Val</th>
+            <th>Anledning</th>
+            <th>Tradeoff</th>
+        </tr>
+        <tr>
+            <td>Canvas</td>
+            <td>Performance</td>
+            <td>Svårare att implementera vissa features</td>
+        </tr>
+        <tr>
+            <td>useReducer</td>
+            <td>Modern React</td>
+            <td>Inte optimerad för mycket stora states</td>
+        </tr>
+        <tr>
+            <td>Monorepo</td>
+            <td>Shared code</td>
+            <td>Mer komplext setup</td>
+        </tr>
+    </table>
+    <div class="slide-number">18</div>
+</div>
+
+<!-- SLIDE 19: Development Workflow -->
+<div class="slide">
+    <h2>Development Workflow</h2>
+    <div class="code-box">
+# Installera
+yarn install
+
+# Starta dev-server (hot reload)
+yarn start
+
+# Köra tester
+yarn test:app
+
+# Code quality
+yarn test:code        # ESLint
+yarn test:typecheck   # TypeScript
+yarn test:all         # Allt
+
+# Build för production
+yarn build
+    </div>
+    <div class="slide-number">19</div>
+</div>
+
+<!-- SLIDE 20: Scaling - Vad händer med stora diagram? -->
+<div class="slide">
+    <h2>Scaling - 10,000+ Element</h2>
+    <div class="two-column">
+        <div>
+            <h3>Problem</h3>
+            <ul style="font-size: 16px;">
+                <li>Långsam rendering</li>
+                <li>Memory leak</li>
+                <li>Laggy interaktion</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Lösningar</h3>
+            <ul style="font-size: 16px;">
+                <li>Spatial indexing</li>
+                <li>Culling (rita bara synliga)</li>
+                <li>Throttling</li>
+                <li>Worker threads</li>
+            </ul>
+        </div>
+    </div>
+    <div class="slide-number">20</div>
+</div>
+
+<!-- SLIDE 21: Key Learnings -->
+<div class="slide">
+    <h2>Key Learnings</h2>
+    <ul style="font-size: 18px;">
+        <li><span class="icon">🔧</span> Test-setup är kritiskt</li>
+        <li><span class="icon">📊</span> Coverage ≠ Quality</li>
+        <li><span class="icon">🎯</span> Exploratory testing bekräftar teorierna</li>
+        <li><span class="icon">🏗️</span> Architecture decisions påverkar allt</li>
+        <li><span class="icon">⚡</span> Performance kräver konstant focus</li>
+        <li><span class="icon">🌐</span> Open-source = högt kodkvalitet</li>
+    </ul>
+    <div class="slide-number">21</div>
+</div>
+
+<!-- SLIDE 22: Sammanfattning -->
+<div class="slide title-slide">
+    <h1>Sammanfattning</h1>
+    <p style="font-size: 22px; margin-top: 40px;">Excalidraw är byggt på moderna web-teknologier</p>
+    <p style="font-size: 22px; margin-top: 20px;">med focus på performance, testning, och user experience</p>
+    <p style="font-size: 18px; margin-top: 40px; color: rgba(255,255,255,0.8);">En utmärkt exempel på professionell webbutveckling</p>
+    <div class="slide-number">22</div>
+</div>
+
+</body>
+</html>
