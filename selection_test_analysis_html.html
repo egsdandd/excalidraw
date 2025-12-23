@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test-analys: selection.test.tsx</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 24px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        p {
+            margin-bottom: 12px;
+            color: #555;
+        }
+        
+        ul {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+        
+        .info-box {
+            background: #ecf0f1;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .success {
+            background: #d5f4e6;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .warning {
+            background: #fdebd0;
+            border-left: 4px solid #e67e22;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        table th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .checkmark {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .crossmark {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .section {
+            margin: 30px 0;
+        }
+        
+        .code-box {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Test-analys: selection.test.tsx</h1>
+    
+    <!-- Filöversikt -->
+    <div class="section">
+        <h2>Filöversikt</h2>
+        <ul>
+            <li><strong>Filnamn:</strong> <code>packages/excalidraw/tests/selection.test.tsx</code></li>
+            <li><strong>Syfte:</strong> Testa hur användaren kan välja/markera former på canvas</li>
+            <li><strong>Omfattning:</strong> ~600+ rader, många test-fall</li>
+        </ul>
+    </div>
+    
+    <!-- Test-grupper -->
+    <div class="section">
+        <h2>Test-grupper (describe-block)</h2>
+        
+        <h3>1. box-selection</h3>
+        <p><strong>Vad testas:</strong> Rektangelval - användaren drar en ruta för att välja flera element samtidigt</p>
+        <p><strong>Tests i denna grupp:</strong></p>
+        <ul>
+            <li>
+                <strong>should allow adding to selection via box-select when holding shift</strong>
+                <ul>
+                    <li><em>Vad:</em> Kan man lägga till element till selection genom att hålla shift och dra</li>
+                    <li><em>Edge case:</em> Shift-modifier kombinerat med drag</li>
+                    <li><em>Problem det löser:</em> Säkerställer att multi-select fungerar korrekt</li>
+                </ul>
+            </li>
+            <li>
+                <strong>should (de)select element when box-selecting over and out while not holding shift</strong>
+                <ul>
+                    <li><em>Vad:</em> Avmarkera/markera element utan shift</li>
+                    <li><em>Edge case:</em> Dra utan modifier-tangent</li>
+                    <li><em>Problem det löser:</em> Enkelt val ska ersätta tidigare val</li>
+                </ul>
+            </li>
+        </ul>
+        
+        <h3>2. inner box-selection</h3>
+        <p><strong>Vad testas:</strong> Välja element som är visuellt nästlade inuti andra</p>
+        <ul>
+            <li>
+                <strong>selecting elements visually nested inside another</strong>
+                <ul>
+                    <li><em>Problem det löser:</em> Kan man välja små element inuti större element?</li>
+                    <li><em>Edge case:</em> Element med överlappande gränser</li>
+                </ul>
+            </li>
+            <li>
+                <strong>selecting grouped elements visually nested inside another</strong>
+                <ul>
+                    <li><em>Problem det löser:</em> Fungerar det när element är grupperade?</li>
+                </ul>
+            </li>
+            <li>
+                <strong>selecting & deselecting grouped elements visually nested inside another</strong>
+                <ul>
+                    <li><em>Problem det löser:</em> Kan man både välja och avmarkera grupperade element?</li>
+                </ul>
+            </li>
+        </ul>
+        
+        <h3>3. selection element</h3>
+        <p><strong>Vad testas:</strong> Den visuella "selection box" som visas när man drar för att välja</p>
+        <ul>
+            <li>
+                <strong>create selection element on pointer down</strong>
+                <ul>
+                    <li><em>Vad:</em> Skapas en selection-ruta när man klickar?</li>
+                    <li><em>Problem det löser:</em> Visuell feedback när man börjar välja</li>
+                    <li><em>Edge case:</em> Kontrollerar position och dimensioner</li>
+                </ul>
+            </li>
+            <li>
+                <strong>resize selection element on pointer move</strong>
+                <ul>
+                    <li><em>Vad:</em> Växer selection-rutan när man drar musen?</li>
+                    <li><em>Problem det löser:</em> Interaktiv visuell feedback</li>
+                </ul>
+            </li>
+            <li>
+                <strong>remove selection element on pointer up</strong>
+                <ul>
+                    <li><em>Vad:</em> Försvinner selection-rutan när man släpper musen?</li>
+                    <li><em>Problem det löser:</em> Rengöring efter val</li>
+                </ul>
+            </li>
+        </ul>
+        
+        <h3>4. select single element on the scene</h3>
+        <p><strong>Vad testas:</strong> Välja enskilda element (inte drag-selection)</p>
+        <p><strong>Tests för olika former:</strong> rectangle, diamond, ellipse, arrow, arrow escape</p>
+        <ul>
+            <li><em>Vad:</em> Kan man klicka på varje form och välja den?</li>
+            <li><em>Problem det löser:</em> Grundläggande selection för alla formtyper</li>
+            <li><em>Edge case:</em> "arrow escape" - specialfall för pilar</li>
+        </ul>
+        
+        <h3>5. tool locking & selection</h3>
+        <p><strong>Vad testas:</strong> Vad händer när "lock"-verktyget är aktivt</p>
+        <p><strong>Test:</strong> should not select newly created element while tool is locked</p>
+        <ul>
+            <li><em>Vad:</em> Nya element ska INTE väljas automatiskt när tool är låst</li>
+            <li><em>Problem det löser:</em> Låter användare skapa många element utan att välja dem en efter en</li>
+            <li><em>Edge case:</em> Testar alla formtyper</li>
+        </ul>
+        
+        <h3>6. selectedElementIds stability</h3>
+        <p><strong>Vad testas:</strong> Att selection-state är stabil och konsistent</p>
+        <p><strong>Test:</strong> box-selection should be stable when not changing selection</p>
+        <ul>
+            <li><em>Vad:</em> Om inget ändras, ska selectedElementIds inte ändras</li>
+            <li><em>Problem det löser:</em> Förhindrar onödiga re-renders eller state-ändringar</li>
+            <li><em>Varför viktigt:</em> Performance och stabilitet</li>
+        </ul>
+    </div>
+    
+    <!-- Testningsmetodologi -->
+    <div class="section">
+        <h2>Testningsmetodologi</h2>
+        
+        <h3>Verktyg som används:</h3>
+        <ul>
+            <li><strong>API.createElement():</strong> Skapar test-element programmatiskt</li>
+            <li><strong>API.setElements():</strong> Lägger elementen på canvas</li>
+            <li><strong>Pointer (mouse):</strong> Simulerar musrörelser och klick
+                <ul>
+                    <li><code>mouse.downAt(x, y)</code> - Börja dra</li>
+                    <li><code>mouse.move(x, y)</code> - Flytta under drag</li>
+                    <li><code>mouse.moveTo(x, y)</code> - Flytta till exakt position</li>
+                    <li><code>mouse.up()</code> - Släpp</li>
+                </ul>
+            </li>
+            <li><strong>Keyboard.withModifierKeys():</strong> Testar shift, ctrl, alt, etc.</li>
+            <li><strong>assertSelectedElements():</strong> Verifiera att rätt element är valda</li>
+        </ul>
+        
+        <h3>Exempel på test-mönster:</h3>
+        <div class="code-box">
+// 1. Skapa element
+const rect = API.createElement({
+  type: "rectangle",
+  x: 0, y: 0,
+  width: 50, height: 50
+});
+
+// 2. Lägg på canvas
+API.setElements([rect]);
+
+// 3. Simulera användarinteraktion
+mouse.downAt(100, 100);
+mouse.moveTo(200, 200);
+mouse.up();
+
+// 4. Verifiera resultat
+assertSelectedElements([rect.id]);
+        </div>
+    </div>
+    
+    <!-- Edge Cases -->
+    <div class="section">
+        <h2>Edge Cases som täcks</h2>
+        <table>
+            <tr>
+                <th>Edge Case</th>
+                <th>Test</th>
+                <th>Varför viktigt</th>
+            </tr>
+            <tr>
+                <td>Multi-select med shift</td>
+                <td>box-selection with shift</td>
+                <td>Måste kunna välja flera element</td>
+            </tr>
+            <tr>
+                <td>Nästlade element</td>
+                <td>inner box-selection</td>
+                <td>Små element inuti större måste gå att välja</td>
+            </tr>
+            <tr>
+                <td>Låst tool</td>
+                <td>tool locking</td>
+                <td>Låsning ska förhindra automatisk selection</td>
+            </tr>
+            <tr>
+                <td>Selection-visualisering</td>
+                <td>selection element</td>
+                <td>Användare måste se selection-ruta</td>
+            </tr>
+            <tr>
+                <td>Alla formtyper</td>
+                <td>select single element</td>
+                <td>Alla former måste kunna väljas</td>
+            </tr>
+            <tr>
+                <td>State-stabilitet</td>
+                <td>selectedElementIds stability</td>
+                <td>Ingen onödig re-rendering</td>
+            </tr>
+        </table>
+    </div>
+    
+    <!-- Requirements -->
+    <div class="section">
+        <h2>Requirements som uppfylls</h2>
+        <div class="success">
+            <p><span class="checkmark">✓</span> <strong>Grundläggande välfunktionalitet:</strong> Element kan väljas genom klick</p>
+            <p><span class="checkmark">✓</span> <strong>Multi-select:</strong> Flera element kan väljas samtidigt</p>
+            <p><span class="checkmark">✓</span> <strong>Box-select:</strong> Dra-baserat val fungerar</p>
+            <p><span class="checkmark">✓</span> <strong>Modifierare:</strong> Shift/Ctrl-kombinationer fungerar</p>
+            <p><span class="checkmark">✓</span> <strong>Visuell feedback:</strong> Selection-ruta visas under drag</p>
+            <p><span class="checkmark">✓</span> <strong>Gruppering:</strong> Grupperade element fungerar</p>
+            <p><span class="checkmark">✓</span> <strong>Performance:</strong> State uppdateras effektivt</p>
+        </div>
+    </div>
+    
+    <!-- Problem/Bugs -->
+    <div class="section">
+        <h2>Problem/Bugs som löses</h2>
+        
+        <h3>Problem 1: Multi-select fungerar inte</h3>
+        <p><strong>Lösning:</strong> Multi-select test säkerställer detta fungerar</p>
+        
+        <h3>Problem 2: Små element inuti större kan inte väljas</h3>
+        <p><strong>Lösning:</strong> Inner box-selection test validerar detta</p>
+        
+        <h3>Problem 3: Låsning av tool fungerar inte</h3>
+        <p><strong>Lösning:</strong> Tool locking test kontrollerar detta</p>
+        
+        <h3>Problem 4: Onödiga renders när inget ändras</h3>
+        <p><strong>Lösning:</strong> Stability test förhindrar detta</p>
+    </div>
+    
+    <!-- Styrkor -->
+    <div class="section">
+        <h2>Styrkor i denna test-fil</h2>
+        <div class="success">
+            <ul>
+                <li><span class="checkmark">✓</span> Omfattande coverage av vanliga use-cases</li>
+                <li><span class="checkmark">✓</span> Realistisk mussimulering (down, move, up)</li>
+                <li><span class="checkmark">✓</span> Testar modifier-tangenter (shift)</li>
+                <li><span class="checkmark">✓</span> Testar flera formtyper, inte bara en</li>
+                <li><span class="checkmark">✓</span> Edge cases som nästlade element och gruppering</li>
+                <li><span class="checkmark">✓</span> Kontrollerar både selection OCH render-cykler</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Svagheter -->
+    <div class="section">
+        <h2>Svagheter & Förbättringsmöjligheter</h2>
+        
+        <h3>Saknad keyboard-testning</h3>
+        <div class="warning">
+            <p><strong>Problem:</strong> Inga tester för Tab, Enter, Escape navigation</p>
+            <p><strong>Påverkan:</strong> Keyboard-användare får sämre erfarenhet</p>
+            <p><strong>Prioritet:</strong> Högt</p>
+        </div>
+        
+        <h3>Saknad touch/mobile-testning</h3>
+        <div class="warning">
+            <p><strong>Problem:</strong> Pekskärm-användare inte täckda</p>
+            <p><strong>Påverkan:</strong> Mobile-användare får sämre erfarenhet</p>
+            <p><strong>Prioritet:</strong> Högt</p>
+        </div>
+        
+        <h3>Saknad cross-platform testning</h3>
+        <div class="warning">
+            <p><strong>Problem:</strong> Bara shift testas, inte Ctrl (Windows) eller Cmd (Mac)</p>
+            <p><strong>Påverkan:</strong> Windows och Mac-användare använder olika tangenter</p>
+            <p><strong>Prioritet:</strong> Medel</p>
+        </div>
+        
+        <h3>Svaga assertions</h3>
+        <div class="warning">
+            <p><strong>Problem:</strong> Tester kontrollerar bara vilka element som är valda, inte visuell feedback</p>
+            <p><strong>Saknar:</strong> Färger, UI-uppdateringar, funktionstillgänglighet</p>
+            <p><strong>Prioritet:</strong> Medel</p>
+        </div>
+        
+        <h3>Saknad performance-testning</h3>
+        <div class="warning">
+            <p><strong>Problem:</strong> Vet inte vad som händer med 1000+ element</p>
+            <p><strong>Påverkan:</strong> Skalbarhet är okänd</p>
+            <p><strong>Prioritet:</strong> Låg</p>
+        </div>
+        
+        <h3>Bristande boundary condition-testning</h3>
+        <div class="warning">
+            <p><strong>Saknas:</strong> Mycket små selection-rutor, negativa koordinater, dubbla element på samma position</p>
+            <p><strong>Prioritet:</strong> Låg</p>
+        </div>
+        
+        <h3>Saknad undo/redo-testning med selection</h3>
+        <div class="warning">
+            <p><strong>Problem:</strong> Vad händer med selection när man angår/gör om?</p>
+            <p><strong>Prioritet:</strong> Medel</p>
+        </div>
+    </div>
+    
+    <!-- Rekommendationer -->
+    <div class="section">
+        <h2>Rekommendationer för förbättring</h2>
+        
+        <h3>Högsta prioritet (påverkar många användare):</h3>
+        <ol>
+            <li>Lägg till keyboard-baserad selection (Tab, Enter, Escape)</li>
+            <li>Lägg till Ctrl/Cmd-click testning (cross-platform consistency)</li>
+            <li>Lägg till touch/pekskärm-testning</li>
+        </ol>
+        
+        <h3>Medel prioritet (edge cases):</h3>
+        <ol start="4">
+            <li>Lägg till visuell verifikation (färger, stilar)</li>
+            <li>Lägg till undo/redo med selection</li>
+            <li>Lägg till negativa koordinater testning</li>
+        </ol>
+        
+        <h3>Låg prioritet (optimering):</h3>
+        <ol start="7">
+            <li>Performance-testning med många element</li>
+            <li>Bättre error-reporting</li>
+            <li>Dokumentation av varför varje test är viktigt</li>
+        </ol>
+    </div>
+    
+    <!-- Sammanfattning -->
+    <div class="section">
+        <h2>Sammanfattning</h2>
+        <div class="info-box">
+            <p><strong>Denna test-fil är kritisk för appens grundläggande funktionalitet.</strong> Den testar:</p>
+            <ul>
+                <li>Hur användare interagerar med canvas</li>
+                <li>Att alla väl-mekanismer fungerar korrekt</li>
+                <li>Edge cases som kan dölja buggar</li>
+                <li>Performance och state-stabilitet</li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>Utan dessa tests skulle grundläggande selection-funktionalitet kunna förstöras utan att någon märker det.</strong></p>
+        </div>
+        
+        <h3>Slutsats:</h3>
+        <p>Filen är <strong>bra och täcker mycket</strong>, men har några <strong>kritiska gap</strong>:</p>
+        <ul>
+            <li><strong>Styrka:</strong> Täcker vanliga scenarios väl</li>
+            <li><strong>Svaghet:</strong> Saknar keyboard, touch, och cross-platform testning</li>
+            <li><strong>Påverkan:</strong> Vissa användargrupper (keyboard users, mobile) får sämre erfarenhet</li>
+        </ul>
+        <p style="margin-top: 15px;"><strong>Rekommendation:</strong> Lägg till tester för keyboard-baserad selection först - det påverkar mest användare.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

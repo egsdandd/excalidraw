@@ -1,6 +1,6 @@
 # Excalidraw - Testning och Analys Rapport
 
-**Författare**: [Ditt namn]  
+**Författare**: Dan-Håkan Davall
 **Datum**: December 2025  
 **Projekt**: Undersökning av Excalidraw open-source projekt  
 **Fokus**: Testing med Vitest/Jest
