@@ -11,9 +11,11 @@
 ### 1.1 Regression Testing (~5%)
 
 **Dedikerade filer:**
+
 - [packages/excalidraw/tests/regressionTests.test.tsx](packages/excalidraw/tests/regressionTests.test.tsx) (1201 rader)
 
 **Beskrivning:**
+
 - Testar tidigare buggar för att säkerställa att de inte återkommer
 - Använder snapshots för att verifiera rendering och state
 - Verifierar antal renderingar: `expect(renderStaticScene.mock.calls.length)`
@@ -21,6 +23,7 @@
 - Fokuserar på specifika buggar som tidigare upptäckts i produktionen
 
 **Exempel på testfall:**
+
 - Verifiering av element-state efter specifika operationer
 - Rendering-konsistens vid olika interaktioner
 - Edge cases som tidigare orsakat problem
@@ -32,6 +35,7 @@
 Detta är den dominerande testtypen i projektet.
 
 #### **A. Matematik/Geometri (packages/math/tests/)**
+
 - `curve.test.ts` - Kurvintersektioner, närmaste punkt på kurva
 - `ellipse.test.ts` - Punkt-i-ellips, linje-ellips-intersektioner
 - `line.test.ts` - Linje-linje-intersektioner
@@ -43,6 +47,7 @@ Detta är den dominerande testtypen i projektet.
 **Karaktär:** Ren matematik, testar enskilda funktioner isolerat.
 
 #### **B. Utilities (packages/utils/tests/)**
+
 - `geometry.test.ts` - Geometriska hjälpfunktioner
 - `withinBounds.test.ts` - Boundingbox-beräkningar
 - `export.test.ts` - Export-funktioner (canvas, blob, SVG)
@@ -51,24 +56,29 @@ Detta är den dominerande testtypen i projektet.
 **Karaktär:** Hjälpfunktioner som används av övriga systemet.
 
 #### **C. Common Utilities (packages/common/src/)**
+
 - `utils.test.ts` - `isTransparent()`, `reduceToCommonValue()`, `mapFind()`
 
 #### **D. Element-operationer (packages/element/tests/)**
+
 - `align.test.tsx` - Elementjustering (top, bottom, left, right, center)
 - `binding.test.tsx` - Arrow-bindings till shapes
 
 **Testfall exempel:**
+
 - Justera två objekt till toppen
 - Justera grupper med nested elements
 - Bindings mellan pilar och shapes
 
 #### **E. Actions (packages/excalidraw/actions/)**
+
 - `actionDeleteSelected.test.tsx` - Radering med frames och children
 - `actionDuplicateSelection.test.tsx` - Duplicering av frames, grupper, bindings
 - `actionElementLock.test.tsx` - Låsning/upplåsning av element
 - `actionProperties.test.tsx` - Element-egenskaper
 
 #### **F. Data-hantering**
+
 - `clipboard.test.ts` - Clipboard parsing (JSON, HTML, bilder, spreadsheets)
 - `charts.test.ts` - Chart-data parsing och validering
 
@@ -81,11 +91,13 @@ Testar hela subsystem och integration mellan komponenter.
 #### **Huvudsakliga system-tester:**
 
 **App & Core:**
+
 - `App.test.tsx` - Applikationsstate och konfiguration
 - `excalidraw.test.tsx` - Huvudkomponent med props och children
 - `appState.test.tsx` - Application state management
 
 **History System (5243 rader!):**
+
 - `history.test.tsx` - Omfattande tester av undo/redo-systemet
   - Element-manipulationer och historik
   - Multi-element operationer
@@ -93,12 +105,14 @@ Testar hela subsystem och integration mellan komponenter.
   - History stack management
 
 **Collaboration:**
+
 - `collab.test.tsx` - Realtidssamarbete
   - Ephemeral updates
   - Force-deleted elements med undo/redo
   - Synkronisering mellan klienter
 
 **Export Pipeline:**
+
 - `export.test.tsx` - Hela export-flödet
   - Canvas export
   - Blob generation
@@ -106,6 +120,7 @@ Testar hela subsystem och integration mellan komponenter.
   - Format-konvertering
 
 **Feature Integration:**
+
 - `selection.test.tsx` (559 rader) - Selektionssystem
 - `tool.test.tsx` - Verktygshantering
 - `shortcuts.test.tsx` - Keyboard shortcuts
@@ -133,6 +148,7 @@ Testar hela subsystem och integration mellan komponenter.
 Testar användarupplevelse och UI från användarens perspektiv.
 
 **UI Komponenter:**
+
 - `MobileMenu.test.tsx` - Mobil meny-funktionalitet
   - Form factor detection (phone)
   - Welcome screen interaktion
@@ -146,6 +162,7 @@ Testar användarupplevelse och UI från användarens perspektiv.
   - Item selection
 
 **Karaktär:**
+
 - Testar från slutanvändarens perspektiv
 - Verifierar UI-rendering och användarflöden
 - Snapshot testing för UI-konsistens
@@ -159,11 +176,13 @@ Testar användarupplevelse och UI från användarens perspektiv.
 **Förekomst:** Ingen explicit random testing.
 
 **Observation:**
+
 - Projektet använder `reseed(7)` för **deterministisk** slumpmässighet
 - Detta ger reproducerbara tester istället för random testing
 - Fokus ligger på förutsägbara test cases
 
 **Varför ingen random testing?**
+
 - Grafiska element kräver exakta positioner
 - UI-interaktioner måste vara reproducerbara
 - Debugging skulle bli svårare med random inputs
@@ -175,17 +194,21 @@ Testar användarupplevelse och UI från användarens perspektiv.
 Testar funktionalitet utan kunskap om intern implementation.
 
 #### **UI/Component Tests:**
+
 - `MobileMenu.test.tsx` - Testar UI-beteende
 - `LanguageList.test.tsx` - Testar språkbyte-effekt
 - `DropdownMenu.test.tsx` - Testar meny-interaktioner
 
 #### **Feature Tests:**
+
 - `selection.test.tsx` - Testar selektionsbeteende utan att känna till intern algoritm
 - `tool.test.tsx` - Testar verktyg från användarens perspektiv
 - `shortcuts.test.tsx` - Testar keyboard shortcuts (input → output)
 
 #### **Export Tests:**
+
 - `export.test.ts` - Testar export-format utan att känna till rendering-detaljer
+
   ```typescript
   it("should change image/jpg to image/jpeg", async () => {
     // Input: image/jpg
@@ -194,13 +217,16 @@ Testar funktionalitet utan kunskap om intern implementation.
   ```
 
 #### **Data Tests:**
+
 - `clipboard.test.ts` - Testar clipboard parsing
+
   ```typescript
   it("should parse JSON as plaintext if not excalidraw data")
   it("should parse <image> src urls out of text/html")
   ```
 
 **Kännetecken:**
+
 - Testar input → output
 - Verifierar specifikationer
 - Ingen insyn i intern logik
@@ -213,6 +239,7 @@ Testar funktionalitet utan kunskap om intern implementation.
 Testar intern logik och kodvägar med full kunskap om implementationen.
 
 #### **Matematik Tests (fullständig täckning):**
+
 ```typescript
 // curve.test.ts
 it("point is found when control points are the same", () => {
@@ -228,28 +255,33 @@ it("point is found when control points are the same", () => {
 ```
 
 **Karaktär:**
+
 - Testar exakta matematiska beräkningar
 - Verifierar edge cases i algoritmer
 - Täcker specifika kodvägar
 
 #### **State Management:**
+
 - `history.test.tsx` - Testar intern state-hantering
   - Undo/redo stack manipulation
   - State transitions
   - History branching
 
 #### **Internal Logic:**
+
 - `binding.test.tsx` - Testar binding-algoritmer
 - `align.test.tsx` - Testar alignment-beräkningar
 - `clipboard.test.ts` - Testar parsing-logik för olika format
 
 #### **Mocking av interna moduler:**
+
 ```typescript
 const renderStaticScene = vi.spyOn(StaticScene, "renderStaticScene");
 const renderInteractiveScene = vi.spyOn(InteractiveCanvas, "renderInteractiveScene");
 ```
 
 **Kännetecken:**
+
 - Testar specifika funktioner och metoder
 - Verifierar intern state
 - Använder mocking för isolation
@@ -263,6 +295,7 @@ const renderInteractiveScene = vi.spyOn(InteractiveCanvas, "renderInteractiveSce
 Glass-box = White-box med fokus på strukturell täckning och intern state-inspektion.
 
 #### **Snapshot Testing:**
+
 ```typescript
 const checkpoint = (name: string) => {
   expect(renderStaticScene.mock.calls.length).toMatchSnapshot(
@@ -274,11 +307,13 @@ const checkpoint = (name: string) => {
 ```
 
 #### **Render Count Verification:**
+
 ```typescript
 expect(renderStaticScene.mock.calls.length).toBe(expectedCount);
 ```
 
 #### **Detailed State Inspection:**
+
 ```typescript
 expect(h.state.zenModeEnabled).toBe(true);
 expect(h.elements[0].x).toBe(100);
@@ -286,6 +321,7 @@ expect(h.app.editorInterface.formFactor).toBe("phone");
 ```
 
 **Kännetecken:**
+
 - Verifierar exakt antal renderingar
 - Inspekterar djup state
 - Snapshot-baserad verifiering
@@ -318,14 +354,17 @@ expect(h.app.editorInterface.formFactor).toBe("phone");
 ## 4. Testverktyg och Framework
 
 **Test Runner:**
+
 - Vitest (modern, snabb Vite-baserad test runner)
 
 **Testing Libraries:**
+
 - `@testing-library/react` - React component testing
 - `@testing-library/user-event` - Användarinteraktioner
 - `vitest` - Mocking och assertions
 
 **Custom Test Utilities:**
+
 - `test-utils.ts` - Projektspecifika hjälpfunktioner
 - `API.ts` (helpers) - Element creation helpers
 - `ui.ts` (helpers) - UI interaction helpers (Pointer, Keyboard, UI)
@@ -335,6 +374,7 @@ expect(h.app.editorInterface.formFactor).toBe("phone");
 ## 5. Testmönster och Best Practices
 
 ### 5.1 Test Organization
+
 ```typescript
 describe("Feature Name", () => {
   describe("Sub-feature", () => {
@@ -346,6 +386,7 @@ describe("Feature Name", () => {
 ```
 
 ### 5.2 Setup/Teardown
+
 ```typescript
 beforeEach(() => {
   localStorage.clear();
@@ -359,12 +400,14 @@ afterAll(() => {
 ```
 
 ### 5.3 Mocking
+
 ```typescript
 const renderStaticScene = vi.spyOn(StaticScene, "renderStaticScene");
 mockBoundingClientRect(dimensions);
 ```
 
 ### 5.4 Assertions
+
 ```typescript
 expect(result).toCloselyEqualPoints([[87.5, 87.5]]);
 expect(h.state).toMatchSnapshot();
@@ -376,6 +419,7 @@ expect(element).toMatchInlineSnapshot();
 ## 6. Testfiler per Kategori
 
 ### Matematik (packages/math/tests/)
+
 - `curve.test.ts`
 - `ellipse.test.ts`
 - `line.test.ts`
@@ -385,16 +429,19 @@ expect(element).toMatchInlineSnapshot();
 - `vector.test.ts`
 
 ### Element (packages/element/tests/)
+
 - `align.test.tsx`
 - `binding.test.tsx`
 
 ### Actions (packages/excalidraw/actions/)
+
 - `actionDeleteSelected.test.tsx`
 - `actionDuplicateSelection.test.tsx`
 - `actionElementLock.test.tsx`
 - `actionProperties.test.tsx`
 
 ### Core Features (packages/excalidraw/tests/)
+
 - `App.test.tsx`
 - `appState.test.tsx`
 - `charts.test.ts`
@@ -423,11 +470,13 @@ expect(element).toMatchInlineSnapshot();
 - `viewMode.test.tsx`
 
 ### UI Components (excalidraw-app/tests/)
+
 - `collab.test.tsx`
 - `LanguageList.test.tsx`
 - `MobileMenu.test.tsx`
 
 ### Utilities
+
 - `packages/utils/tests/export.test.ts`
 - `packages/utils/tests/geometry.test.ts`
 - `packages/utils/tests/withinBounds.test.ts`
@@ -438,20 +487,23 @@ expect(element).toMatchInlineSnapshot();
 
 ## 7. Observationer och Insikter
 
-### Styrkor:
+### Styrkor
+
 1. **Omfattande unit testing** - Särskilt matematik och geometri har excellent täckning
 2. **Deterministiska tester** - `reseed(7)` gör alla tester reproducerbara
 3. **History testing** - 5243 rader dedikerade till undo/redo visar hög kvalitetsfokus
 4. **Regression focus** - Dedikerad fil för att förhindra återkommande buggar
 5. **Custom helpers** - Välutvecklade test utilities (API, Pointer, Keyboard, UI)
 
-### Förbättringsområden:
+### Förbättringsområden
+
 1. **Ingen E2E testing** - Saknas end-to-end tester
 2. **Begränsad acceptance testing** - Endast 5% av testerna
 3. **Ingen random/fuzz testing** - Kunde hitta edge cases
 4. **Integration testing** - Kunde vara mer omfattande (20% idag)
 
-### Testkultur:
+### Testkultur
+
 - **Matematiskt rigorös** - Exakta assertions för geometri
 - **UI-fokuserad** - Snapshot testing för UI-konsistens
 - **Developer-friendly** - Tydliga beskrivningar och hjälpfunktioner
@@ -462,6 +514,7 @@ expect(element).toMatchInlineSnapshot();
 ## 8. Slutsats
 
 Excalidraw-projektet har en **mycket robust testsvit** med fokus på:
+
 - ✅ Unit testing (70%)
 - ✅ White-box testing (60%)
 - ✅ Deterministiska, reproducerbara tester
@@ -469,6 +522,7 @@ Excalidraw-projektet har en **mycket robust testsvit** med fokus på:
 - ✅ Regression prevention
 
 Projektet skulle kunna förbättras med:
+
 - ❌ E2E testing
 - ❌ Mer acceptance testing
 - ❌ Performance testing
